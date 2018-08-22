@@ -26,7 +26,7 @@ def get_popular_articles():
         group by articles.title
         order by views desc
         limit 3;
-    """         
+    """
     # To Run query
     results = run_query(query)
 
@@ -38,10 +38,11 @@ def get_popular_articles():
         title = '"' + i[0] + '"'
         views = str(i[1]) + " " + "views"
         print(number + title + " " + "-" + " " + views)
-        count += 1 
-
+        count += 1
 
 # Question-2 : Who are the most popular article authors of all time?
+
+
 def get_popular_article_author():
 
     query = """
@@ -71,14 +72,14 @@ def get_popular_article_author():
 
 
 # Question-3 : On which days did more than 1% of requests lead to errors?
-def get_days_lead_errors():    
+def get_days_lead_errors():
     query = """
         select errors.day, (100.0 * errors.abc / total.views) as percentage
         from
-        (select time::date as day, COUNT(*) as abc 
+        (select time::date as day, COUNT(*) as abc
         from log where status = '404 NOT FOUND' group by day) as errors
         join
-        (select time::date as day, COUNT(*) as views 
+        (select time::date as day, COUNT(*) as views
         from log  group by day) as total
         on errors.day = total.day
         where (100.0 * errors.abc / total.views) > 1
@@ -95,9 +96,7 @@ def get_days_lead_errors():
         day = i[0].strftime('%B %d,%Y')
         errors = str(round(i[1], 2)) + " % " + "errors"
         print(day + " " + "-" + " " + errors)
-        count += 1                 
+        count += 1
 get_popular_articles()
 get_popular_article_author()
 get_days_lead_errors()
-
-
